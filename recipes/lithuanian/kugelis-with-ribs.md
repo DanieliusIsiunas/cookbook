@@ -3,6 +3,8 @@ id: kugelis-with-ribs
 title: Kugelis with slow-cooked ribs
 status: draft
 servings: unknown
+prep_time_minutes: unknown
+cook_time_minutes: unknown
 total_time_minutes: unknown
 tags:
   - lithuanian
@@ -60,6 +62,11 @@ This is a conservative import of the latest identifiable historical revision, no
 - The centre should be set and hot, without visibly loose potato liquid.
 - A portion should hold together after resting while remaining moist.
 - Ribs should be tender and evenly distributed or intentionally layered.
+
+## Chef tips
+
+- Treat the historical 80-minute bake as a reference, not a doneness guarantee. Dish depth and potato moisture determine how quickly the centre sets.
+- Record potato weight and dish dimensions on the next cook. Those two measurements will explain more than adding extra procedural complexity.
 
 ## Critical variables
 

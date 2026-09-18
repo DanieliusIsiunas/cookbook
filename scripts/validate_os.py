@@ -36,6 +36,8 @@ REQUIRED_METADATA = {
     "title",
     "status",
     "servings",
+    "prep_time_minutes",
+    "cook_time_minutes",
     "total_time_minutes",
     "tags",
     "source",
@@ -49,6 +51,7 @@ REQUIRED_SECTIONS = [
     "Equipment",
     "Method",
     "Sensory checkpoints",
+    "Chef tips",
     "Critical variables",
     "Proven variations",
     "Troubleshooting",
@@ -57,6 +60,14 @@ REQUIRED_SECTIONS = [
 ]
 
 ALLOWED_STATUSES = {"draft", "testing", "trusted"}
+
+REQUIRED_CHEF_RULE_SNIPPETS = [
+    "one or two high-leverage touches",
+    "Preparation time and cooking time",
+    "approximately 300 words",
+    "Detail mode",
+    "Flag common allergens",
+]
 
 
 def parse_front_matter(text: str, path: Path) -> dict[str, object]:
@@ -130,6 +141,13 @@ def main() -> int:
             warnings.append(
                 f"PROJECT-INSTRUCTIONS.md is {word_count} words; keep the router compact"
             )
+
+    chef_rules = ROOT / "knowledge/03-Chef-Rules.md"
+    if chef_rules.exists():
+        rules_text = chef_rules.read_text(encoding="utf-8")
+        for snippet in REQUIRED_CHEF_RULE_SNIPPETS:
+            if snippet not in rules_text:
+                errors.append(f"Chef Rules is missing required policy: {snippet}")
 
     recipe_paths = sorted((ROOT / "recipes").rglob("*.md"))
     if not recipe_paths:

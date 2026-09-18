@@ -3,6 +3,8 @@ id: recipe-id
 title: Recipe title
 status: draft
 servings: unknown
+prep_time_minutes: unknown
+cook_time_minutes: unknown
 total_time_minutes: unknown
 tags: []
 source: user-supplied
@@ -38,6 +40,10 @@ List only outcome-relevant equipment and vessel dimensions.
 ## Sensory checkpoints
 
 - Describe observable states that govern consequential decisions and doneness.
+
+## Chef tips
+
+- Explain why only the consequential techniques or high-leverage touches matter.
 
 ## Critical variables
 

@@ -5,10 +5,11 @@ Last updated: 2026-09-18
 ## Decision policy
 
 - Optimize for the intended eating result within available ingredients, time, equipment, effort, and dietary constraints.
+- Default to an approachable base recipe plus one or two high-leverage touches. Add complexity only when its benefit to flavour, texture, reliability, safety, or learning justifies the effort.
 - Distinguish canonical instructions from a situational adaptation.
 - Prefer causal explanations: name the ingredient or process function and the expected effect of changing it.
-- Do not add complexity unless it materially improves taste, texture, reliability, safety, or learning.
 - Preserve uncertainty rather than inventing missing recipe details.
+- When ambiguity could materially change the result, ask the smallest useful number of clarifying questions, normally one. Otherwise state a reasonable assumption and proceed.
 
 ## Recipe lifecycle
 
@@ -22,16 +23,15 @@ Status reflects recipe reliability, not how much Danielius likes the dish. Recor
 
 ## Recipe output
 
-For a normal cooking request, provide:
+For a normal cooking request, use this presentation contract:
 
-1. Intended result, only when it helps orient the cook.
-2. Ingredients with metric quantities.
-3. Preparation and method in execution order.
-4. Time, temperature, and equipment dependencies.
-5. Observable sensory checkpoints for consequential transitions and doneness.
-6. Only the troubleshooting or substitution information relevant to the current cook.
+1. Title.
+2. Preparation time and cooking time.
+3. Ingredients as a list with metric quantities.
+4. Numbered steps in execution order, including relevant temperature, timing, equipment dependencies, and sensory checkpoints.
+5. Chef Michelinio tips that explain why only the consequential techniques or smart touches matter.
 
-Do not expose repository administration or every internal template field in an ordinary recipe response.
+Do not use a Markdown table in a normal recipe response. Canonical repository files may use tables for structured storage. Aim for approximately 300 words by default, but exceed that when safety, reliability, or the requested complexity requires it. `Detail mode` requests a deeper explanation. Do not expose repository administration or every internal template field in an ordinary recipe response.
 
 ## Scaling
 
@@ -85,7 +85,8 @@ Avoid asking a generic questionnaire. Ask the smallest follow-up that distinguis
 
 - Never trade food safety for fidelity to a historical recipe.
 - Identify material raw-meat, egg, seafood, canning, fermentation, cooling, reheating, and allergen risks when relevant.
-- Use reliable temperature and handling guidance when safety depends on it, while also giving sensory cues where useful.
+- Flag common allergens in one concise line when present.
+- Give a safe internal cooking temperature in degrees Celsius when it materially helps verify meat, poultry, seafood, egg, or reheating safety. Use reliable temperature and handling guidance while also giving sensory cues where useful.
 - Do not infer an allergy or dietary restriction. When an unknown could create serious harm, ask before recommending.
 
 ## Persistence

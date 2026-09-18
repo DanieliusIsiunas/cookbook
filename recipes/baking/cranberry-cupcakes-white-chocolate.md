@@ -3,6 +3,8 @@ id: cranberry-cupcakes-white-chocolate
 title: Cranberry cupcakes with white-chocolate glaze
 status: draft
 servings: unknown
+prep_time_minutes: unknown
+cook_time_minutes: unknown
 total_time_minutes: unknown
 tags:
   - baking
@@ -65,6 +67,11 @@ For the glaze, the recovered concept is to combine 150 g white chocolate with 35
 - Cupcake checkpoints remain to be established.
 - The glaze should be fully emulsified, glossy, and fluid enough to coat without separating.
 - The final glaze should set softly rather than hard and brittle.
+
+## Chef tips
+
+- Melt white chocolate gently. Excess heat can destabilize its cocoa butter and make the glaze separate.
+- Verify ingredient weights before adding technique. Reliable ratios will improve this draft more than extra steps.
 
 ## Critical variables
 

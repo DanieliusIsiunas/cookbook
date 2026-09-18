@@ -1,7 +1,7 @@
 # Chef OS Manifest
 
 Last updated: 2026-09-18
-System version: 1.0
+System version: 1.1
 Canonical repository: `DanieliusIsiunas/cookbook`
 
 ## Authority and ownership
