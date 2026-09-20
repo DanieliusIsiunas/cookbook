@@ -1,6 +1,6 @@
 # Recipe Registry
 
-Last updated: 2026-09-19
+Last updated: 2026-09-20
 
 The registry owns recipe identity, status, aliases, and canonical path. The recipe file owns ingredients and method.
 
@@ -10,7 +10,7 @@ The registry owns recipe identity, status, aliases, and canonical path. The reci
 |---|---|---|---|---|
 | `kugelis-with-ribs` | Kugelis with slow-cooked ribs | `draft` | [`recipes/lithuanian/kugelis-with-ribs.md`](../recipes/lithuanian/kugelis-with-ribs.md) | Historical import has unresolved quantities and conflicting versions |
 | `cranberry-cupcakes-white-chocolate` | Cranberry cupcakes with white-chocolate glaze | `draft` | [`recipes/baking/cranberry-cupcakes-white-chocolate.md`](../recipes/baking/cranberry-cupcakes-white-chocolate.md) | Historical import needs metric validation and a confirmed bake profile |
-| `beef-pork-lasagna-ricotta` | Beef and pork lasagna with ricotta | `testing` | [`recipes/pasta/beef-pork-lasagna-ricotta.md`](../recipes/pasta/beef-pork-lasagna-ricotta.md) | First cook successful; several quantities and equipment details remain unmeasured |
+| `beef-pork-lasagna-ricotta` | Beef and pork lasagna with ricotta | `trusted` | [`recipes/pasta/beef-pork-lasagna-ricotta.md`](../recipes/pasta/beef-pork-lasagna-ricotta.md) | Danielius's finalized canonical lasagna; seasoning remains deliberately judgement-based |
 
 ## Aliases
 

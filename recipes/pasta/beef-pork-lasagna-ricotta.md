@@ -1,7 +1,7 @@
 ---
 id: beef-pork-lasagna-ricotta
 title: Beef and pork lasagna with ricotta
-status: testing
+status: trusted
 servings: unknown
 prep_time_minutes: unknown
 cook_time_minutes: unknown
@@ -12,7 +12,7 @@ tags:
   - pork
   - ricotta
 source: user-tested
-updated: 2026-09-19
+updated: 2026-09-20
 schema_version: 1
 ---
 
@@ -22,10 +22,6 @@ schema_version: 1
 
 A substantial, meat-forward lasagna with a firm but creamy ricotta layer, generous mozzarella and three layers of pasta.
 
-## Reliability note
-
-The first cook was successful. Exact garlic, olive-oil, hard-cheese, salt and pepper quantities were not measured. Dish dimensions, oven mode, stovetop timing, sauce reduction and resting time were not recorded, so the recipe remains `testing`.
-
 ## Ingredients
 
 ### Meat and tomato sauce
@@ -34,12 +30,11 @@ The first cook was successful. Exact garlic, olive-oil, hard-cheese, salt and pe
 |---|---:|---|
 | Olive oil | Small amount | Not measured |
 | Onions | 2 medium | Chopped; weight not recorded |
-| Garlic | Unmeasured | Preparation not recorded |
+| Garlic | 4 medium cloves | Finely chopped or minced |
 | Minced pork | 400 g |  |
 | Minced beef | 400 g |  |
 | Chopped tomatoes with basil | 800 g |  |
-| Salt | Unmeasured |  |
-| Black pepper | Unmeasured |  |
+| Salt and spices | Generous, unmeasured | Black pepper included; other spices were not itemised |
 
 ### Ricotta mixture
 
@@ -48,8 +43,8 @@ The first cook was successful. Exact garlic, olive-oil, hard-cheese, salt and pe
 | Ricotta | 250 g |  |
 | Milk | 100 ml |  |
 | Eggs | 2 |  |
-| Hard cheese | Unmeasured | Grated |
-| Salt and black pepper | Unmeasured |  |
+| Hard cheese | About 100 g | Grated |
+| Salt and black pepper | Generous, unmeasured | Adjust by judgement |
 
 ### Assembly
 
@@ -93,7 +88,7 @@ The first cook was successful. Exact garlic, olive-oil, hard-cheese, salt and pe
 - Baking-dish dimensions and mixture depth.
 - Actual Smeg oven mode and temperature accuracy.
 - Tomato-sauce reduction and the moisture content of the mozzarella.
-- Unmeasured garlic, oil, hard-cheese and seasoning quantities.
+- Olive-oil quantity and generous seasoning are intentionally adjusted by judgement.
 - Resting time before cutting.
 
 ## Proven variations
@@ -114,4 +109,4 @@ Rest before portioning. Refrigerate leftovers within two hours and reheat the ce
 
 ## Provenance
 
-Danielius reported the first successful cook on 2026-09-19. It used 400 g pork, 400 g beef, 800 g basil-seasoned chopped tomatoes, two medium onions, garlic, olive oil, 250 g ricotta, 100 ml milk, two eggs, grated hard cheese, 500 g mozzarella and six Delverde Lasagne No. 106 sheets arranged in three layers. It baked for 25 minutes covered at 190 degrees Celsius and 15 minutes uncovered. Unmeasured details remain explicit for the next cook.
+Danielius reported the successful cook on 2026-09-19. It used 400 g pork, 400 g beef, 800 g basil-seasoned chopped tomatoes, two medium onions, four medium garlic cloves, olive oil, generous salt and spices including black pepper, 250 g ricotta, 100 ml milk, two eggs, about 100 g grated hard cheese, 500 g mozzarella and six Delverde Lasagne No. 106 sheets arranged in three layers. It baked for 25 minutes covered at 190 degrees Celsius and 15 minutes uncovered. On 2026-09-20 Danielius finalized this as his canonical lasagna, retaining generous judgement-based seasoning rather than false precision.
