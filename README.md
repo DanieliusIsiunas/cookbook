@@ -2,6 +2,8 @@
 
 Danielius's canonical, version-controlled cookbook and cooking learning system.
 
+The repository also contains a read-only [Astro cookbook](web/README.md) that renders canonical recipes as a searchable, mobile-friendly website. Recipe Markdown remains the single source of truth.
+
 Start with [the manifest](knowledge/00-Chef-OS-Manifest.md). It defines authority, read order, file ownership, and the persistence contract. [Chef Rules](knowledge/03-Chef-Rules.md) owns cooking and recipe-update behavior.
 
 ## Navigation

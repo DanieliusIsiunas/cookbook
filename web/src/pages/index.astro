@@ -1,0 +1,123 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import StatusPill from "../components/StatusPill.astro";
+import { recipeExcerpt, recipeImage, statusRank, timeLabel } from "../lib/recipes";
+
+const base = import.meta.env.BASE_URL;
+const recipes = (await getCollection("recipes")).sort((a, b) => {
+  const byStatus = statusRank[a.data.status] - statusRank[b.data.status];
+  return byStatus || a.data.title.localeCompare(b.data.title);
+});
+const trustedCount = recipes.filter((recipe) => recipe.data.status === "trusted").length;
+const draftCount = recipes.filter((recipe) => recipe.data.status === "draft").length;
+---
+
+<BaseLayout>
+  <section class="library-intro">
+    <div>
+      <p class="eyebrow">Version-controlled cooking</p>
+      <h1>Your recipes,<br /><em>proven in the kitchen.</em></h1>
+      <p class="intro-copy">A living cookbook where tested dishes earn trust and unfinished ideas stay visibly unfinished.</p>
+    </div>
+    <dl class="library-stats" aria-label="Cookbook status">
+      <div><dt>{recipes.length}</dt><dd>recipes</dd></div>
+      <div><dt>{trustedCount}</dt><dd>trusted</dd></div>
+      <div><dt>{draftCount}</dt><dd>to refine</dd></div>
+    </dl>
+  </section>
+
+  <section class="recipe-library" aria-labelledby="recipe-heading">
+    <div class="library-toolbar">
+      <div>
+        <p class="section-kicker">The collection</p>
+        <h2 id="recipe-heading">What shall we cook?</h2>
+      </div>
+      <div class="recipe-search">
+        <label for="recipe-search">Search recipes</label>
+        <span aria-hidden="true">⌕</span>
+        <input id="recipe-search" type="search" placeholder="Lasagna, pork, baking…" autocomplete="off" />
+      </div>
+    </div>
+
+    <div class="filter-row" aria-label="Filter by recipe status">
+      <button class="filter-button is-active" type="button" data-status-filter="all">All <span>{recipes.length}</span></button>
+      <button class="filter-button" type="button" data-status-filter="trusted">Trusted <span>{trustedCount}</span></button>
+      <button class="filter-button" type="button" data-status-filter="draft">Drafts <span>{draftCount}</span></button>
+    </div>
+
+    <div class="recipe-grid" data-recipe-grid>
+      {recipes.map((recipe, index) => {
+        const image = recipeImage(recipe, base);
+        const href = `${base}recipes/${recipe.data.id}/`;
+        return (
+          <article
+            class:list={["recipe-card", index === 0 && "recipe-card-featured"]}
+            data-recipe-card
+            data-status={recipe.data.status}
+            data-search={`${recipe.data.title} ${recipe.data.tags.join(" ")}`.toLowerCase()}
+          >
+            <a class="card-media" href={href} aria-label={`Open ${recipe.data.title}`}>
+              {image ? (
+                <img src={image} alt="Presentation image of beef and pork lasagna with ricotta" loading={index === 0 ? "eager" : "lazy"} />
+              ) : (
+                <span class:list={["recipe-monogram", `tone-${index % 3}`]} aria-hidden="true">
+                  {recipe.data.title.split(" ").slice(0, 2).map((word) => word[0]).join("")}
+                </span>
+              )}
+              <span class="media-status"><StatusPill status={recipe.data.status} /></span>
+            </a>
+            <div class="card-body">
+              <div class="card-meta">
+                <span>{timeLabel(recipe)}</span>
+                <span>{typeof recipe.data.servings === "number" ? `${recipe.data.servings} servings` : "Yield to be recorded"}</span>
+              </div>
+              <h3><a href={href}>{recipe.data.title}</a></h3>
+              <p>{recipeExcerpt(recipe)}</p>
+              <div class="tag-row">
+                {recipe.data.tags.slice(0, 4).map((tag) => <span>{tag.replaceAll("-", " ")}</span>)}
+              </div>
+              <a class="open-recipe" href={href}>Open recipe <span aria-hidden="true">→</span></a>
+            </div>
+          </article>
+        );
+      })}
+    </div>
+    <div class="empty-state" data-empty-state hidden>
+      <strong>No matching recipe.</strong>
+      <span>Try another ingredient or status.</span>
+    </div>
+  </section>
+
+  <script>
+    const search = document.querySelector<HTMLInputElement>("#recipe-search");
+    const cards = [...document.querySelectorAll<HTMLElement>("[data-recipe-card]")];
+    const filters = [...document.querySelectorAll<HTMLButtonElement>("[data-status-filter]")];
+    const emptyState = document.querySelector<HTMLElement>("[data-empty-state]");
+    let activeStatus = "all";
+
+    function applyFilters() {
+      const query = search?.value.trim().toLowerCase() ?? "";
+      let visible = 0;
+
+      cards.forEach((card) => {
+        const matchesText = card.dataset.search?.includes(query) ?? false;
+        const matchesStatus = activeStatus === "all" || card.dataset.status === activeStatus;
+        const show = matchesText && matchesStatus;
+        card.hidden = !show;
+        if (show) visible += 1;
+      });
+
+      if (emptyState) emptyState.hidden = visible !== 0;
+    }
+
+    search?.addEventListener("input", applyFilters);
+    filters.forEach((button) => {
+      button.addEventListener("click", () => {
+        activeStatus = button.dataset.statusFilter ?? "all";
+        filters.forEach((item) => item.classList.toggle("is-active", item === button));
+        applyFilters();
+      });
+    });
+  </script>
+</BaseLayout>

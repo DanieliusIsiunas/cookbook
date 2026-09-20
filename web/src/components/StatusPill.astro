@@ -1,0 +1,14 @@
+---
+import { statusLabels } from "../lib/recipes";
+
+interface Props {
+  status: keyof typeof statusLabels;
+}
+
+const { status } = Astro.props;
+---
+
+<span class:list={["status-pill", `status-${status}`]}>
+  <span aria-hidden="true"></span>
+  {statusLabels[status]}
+</span>

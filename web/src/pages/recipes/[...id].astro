@@ -1,0 +1,188 @@
+---
+import { getCollection, render } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import StatusPill from "../../components/StatusPill.astro";
+import { detectAllergens, formattedDate, recipeExcerpt, recipeImage, sourcePath, timeLabel } from "../../lib/recipes";
+
+export async function getStaticPaths() {
+  const recipes = await getCollection("recipes");
+  return recipes.map((recipe) => ({
+    params: { id: recipe.data.id },
+    props: { recipe },
+  }));
+}
+
+const { recipe } = Astro.props;
+const { Content } = await render(recipe);
+const base = import.meta.env.BASE_URL;
+const image = recipeImage(recipe, base);
+const allergens = detectAllergens(recipe);
+const servings = typeof recipe.data.servings === "number" ? recipe.data.servings : null;
+const repoPath = sourcePath(recipe);
+const sourceUrl = `https://github.com/DanieliusIsiunas/cookbook/blob/main/recipes/${repoPath}`;
+const historyUrl = `https://github.com/DanieliusIsiunas/cookbook/commits/main/recipes/${repoPath}`;
+---
+
+<BaseLayout title={recipe.data.title} description={recipeExcerpt(recipe)}>
+  <div class="recipe-shell">
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a href={base}>Cookbook</a>
+      <span aria-hidden="true">/</span>
+      <span>{recipe.data.tags[0]?.replaceAll("-", " ")}</span>
+    </nav>
+
+    <header class="recipe-hero">
+      <div class="recipe-heading">
+        <StatusPill status={recipe.data.status} />
+        <h1>{recipe.data.title}</h1>
+        <p>{recipeExcerpt(recipe)}</p>
+        <div class="hero-facts">
+          <span><small>Time</small>{timeLabel(recipe)}</span>
+          <span><small>Yield</small>{servings ? `${servings} servings` : "Not recorded"}</span>
+          <span><small>Updated</small>{formattedDate(recipe.data.updated)}</span>
+        </div>
+      </div>
+      {image ? (
+        <figure class="recipe-image">
+          <img src={image} alt="Presentation image of beef and pork lasagna with ricotta" />
+          <figcaption>Presentation artwork</figcaption>
+        </figure>
+      ) : (
+        <div class="recipe-image recipe-image-placeholder" aria-hidden="true">
+          <span>{recipe.data.title.split(" ").slice(0, 2).map((word: string) => word[0]).join("")}</span>
+        </div>
+      )}
+    </header>
+
+    <div class="recipe-actions" aria-label="Recipe tools">
+      <button type="button" class="primary-action" data-cooking-mode aria-pressed="false">
+        <span aria-hidden="true">◉</span> Start cooking mode
+      </button>
+      {servings ? (
+        <div class="servings-control" data-servings-control data-base-servings={servings}>
+          <span>Servings</span>
+          <button type="button" data-servings-minus aria-label="Decrease servings">−</button>
+          <strong data-servings-value>{servings}</strong>
+          <button type="button" data-servings-plus aria-label="Increase servings">+</button>
+        </div>
+      ) : (
+        <div class="servings-control is-disabled" title="Record the canonical yield to enable scaling">
+          <span>Scaling unlocks when yield is recorded</span>
+        </div>
+      )}
+      <button type="button" class="icon-action" onclick="window.print()"><span aria-hidden="true">⌁</span> Print</button>
+    </div>
+
+    {recipe.data.status !== "trusted" && (
+      <aside class="draft-warning">
+        <strong>This recipe is not yet trusted.</strong>
+        <span>Unresolved quantities or steps are preserved intentionally. Review the reliability note before cooking.</span>
+      </aside>
+    )}
+
+    {allergens.length > 0 && (
+      <aside class="allergen-note">
+        <strong>Allergens detected</strong>
+        <span>Contains {allergens.join(", ")}. Check individual product labels when cooking for someone with an allergy.</span>
+      </aside>
+    )}
+
+    <div class="recipe-layout">
+      <article class="recipe-content" data-recipe-content>
+        <Content />
+      </article>
+      <aside class="recipe-sidecar">
+        <div>
+          <p class="section-kicker">Recipe record</p>
+          <dl>
+            <div><dt>Status</dt><dd>{recipe.data.status}</dd></div>
+            <div><dt>Source</dt><dd>{recipe.data.source.replaceAll("-", " ")}</dd></div>
+            <div><dt>Schema</dt><dd>v{recipe.data.schema_version}</dd></div>
+          </dl>
+        </div>
+        <div class="sidecar-links">
+          <a href={sourceUrl} target="_blank" rel="noreferrer">View Markdown <span aria-hidden="true">↗</span></a>
+          <a href={historyUrl} target="_blank" rel="noreferrer">View recipe history <span aria-hidden="true">↗</span></a>
+        </div>
+      </aside>
+    </div>
+  </div>
+
+  <script>
+    const cookingButton = document.querySelector<HTMLButtonElement>("[data-cooking-mode]");
+    const recipeContent = document.querySelector<HTMLElement>("[data-recipe-content]");
+
+    function prepareMethodChecklist() {
+      const methodHeading = [...(recipeContent?.querySelectorAll("h2") ?? [])]
+        .find((heading) => heading.textContent?.trim().toLowerCase() === "method");
+      const methodList = methodHeading?.nextElementSibling;
+      if (!(methodList instanceof HTMLOListElement)) return;
+
+      methodList.querySelectorAll("li").forEach((item, index) => {
+        const checkbox = document.createElement("input");
+        checkbox.type = "checkbox";
+        checkbox.className = "method-check";
+        checkbox.setAttribute("aria-label", `Mark step ${index + 1} complete`);
+        item.prepend(checkbox);
+      });
+    }
+
+    prepareMethodChecklist();
+
+    cookingButton?.addEventListener("click", () => {
+      const active = document.body.classList.toggle("cooking-mode");
+      cookingButton.setAttribute("aria-pressed", String(active));
+      cookingButton.innerHTML = active
+        ? '<span aria-hidden="true">×</span> Exit cooking mode'
+        : '<span aria-hidden="true">◉</span> Start cooking mode';
+      if (active) recipeContent?.scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+
+    const servingsControl = document.querySelector<HTMLElement>("[data-servings-control]");
+    const value = document.querySelector<HTMLElement>("[data-servings-value]");
+    const minus = document.querySelector<HTMLButtonElement>("[data-servings-minus]");
+    const plus = document.querySelector<HTMLButtonElement>("[data-servings-plus]");
+
+    if (servingsControl && value && minus && plus && recipeContent) {
+      const baseServings = Number(servingsControl.dataset.baseServings);
+      let currentServings = baseServings;
+      const amountCells: HTMLElement[] = [];
+      const ingredientHeading = [...recipeContent.querySelectorAll("h2")]
+        .find((heading) => heading.textContent?.trim().toLowerCase() === "ingredients");
+
+      let sibling = ingredientHeading?.nextElementSibling;
+      while (sibling && sibling.tagName !== "H2") {
+        sibling.querySelectorAll<HTMLElement>("tbody tr td:nth-child(2)").forEach((cell) => {
+          cell.dataset.baseAmount = cell.textContent?.trim() ?? "";
+          amountCells.push(cell);
+        });
+        sibling = sibling.nextElementSibling;
+      }
+
+      const format = (number: number) => Number.isInteger(number) ? String(number) : String(Math.round(number * 100) / 100);
+      const scaleText = (text: string, factor: number) => text.replace(/\d+(?:\.\d+)?|\d+\/\d+/, (token) => {
+        const number = token.includes("/")
+          ? token.split("/").map(Number).reduce((a, b) => a / b)
+          : Number(token);
+        return format(number * factor);
+      });
+
+      const renderServings = () => {
+        value.textContent = String(currentServings);
+        minus.disabled = currentServings <= 1;
+        amountCells.forEach((cell) => {
+          cell.textContent = scaleText(cell.dataset.baseAmount ?? "", currentServings / baseServings);
+        });
+      };
+
+      minus.addEventListener("click", () => {
+        currentServings = Math.max(1, currentServings - 1);
+        renderServings();
+      });
+      plus.addEventListener("click", () => {
+        currentServings += 1;
+        renderServings();
+      });
+    }
+  </script>
+</BaseLayout>

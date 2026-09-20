@@ -61,6 +61,8 @@ REQUIRED_SECTIONS = [
 
 ALLOWED_STATUSES = {"draft", "testing", "trusted"}
 
+IGNORED_LINK_DIRECTORIES = {"node_modules", "dist", ".astro"}
+
 REQUIRED_CHEF_RULE_SNIPPETS = [
     "one or two high-leverage touches",
     "Preparation time and cooking time",
@@ -108,6 +110,9 @@ def parse_front_matter(text: str, path: Path) -> dict[str, object]:
 def validate_internal_links(errors: list[str]) -> None:
     link_pattern = re.compile(r"\[[^\]]+\]\(([^)]+)\)")
     for path in ROOT.rglob("*.md"):
+        relative = path.relative_to(ROOT)
+        if any(part in IGNORED_LINK_DIRECTORIES for part in relative.parts):
+            continue
         text = path.read_text(encoding="utf-8")
         for target in link_pattern.findall(text):
             if target.startswith(("http://", "https://", "#")):
@@ -115,7 +120,7 @@ def validate_internal_links(errors: list[str]) -> None:
             clean = target.split("#", 1)[0]
             resolved = (path.parent / clean).resolve()
             if clean and not resolved.exists():
-                errors.append(f"{path.relative_to(ROOT)}: broken link to {target}")
+                errors.append(f"{relative}: broken link to {target}")
 
 
 def main() -> int:
