@@ -23,6 +23,9 @@ export function recipeImage(recipe: Recipe, base: string) {
   if (recipe.data.id === "beef-pork-lasagna-ricotta") {
     return `${base}images/beef-pork-lasagna-ricotta.webp`;
   }
+  if (recipe.data.id === "creamy-guanciale-tagliatelle") {
+    return `${base}images/creamy-guanciale-tagliatelle.webp`;
+  }
   return null;
 }
 

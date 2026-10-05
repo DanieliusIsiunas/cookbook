@@ -44,7 +44,7 @@ const historyUrl = `https://github.com/DanieliusIsiunas/cookbook/commits/main/re
       </div>
       {image ? (
         <figure class="recipe-image">
-          <img src={image} alt="Presentation image of beef and pork lasagna with ricotta" />
+          <img src={image} alt={`Presentation image of ${recipe.data.title.toLowerCase()}`} />
           <figcaption>Presentation artwork</figcaption>
         </figure>
       ) : (
