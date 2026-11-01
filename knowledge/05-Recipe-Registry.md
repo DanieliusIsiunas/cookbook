@@ -1,6 +1,6 @@
 # Recipe Registry
 
-Last updated: 2026-10-05
+Last updated: 2026-11-01
 
 The registry owns recipe identity, status, aliases, and canonical path. The recipe file owns ingredients and method.
 
@@ -14,6 +14,8 @@ The registry owns recipe identity, status, aliases, and canonical path. The reci
 
 | `creamy-guanciale-tagliatelle` | Creamy guanciale tagliatelle | `trusted` | [`recipes/pasta/creamy-guanciale-tagliatelle.md`](../recipes/pasta/creamy-guanciale-tagliatelle.md) | Successful cook approved by Danielius; pan-to-bowl egg-and-cheese method |
 
+| `napoleon-with-cranberries` | Napoleonas su spanguolėmis | `testing` | [`recipes/baking/napoleon-with-cranberries.md`](../recipes/baking/napoleon-with-cranberries.md) | Cranberry filling validated; revised less-sweet custard and heating checkpoints awaiting another cook; purchased sheets |
+
 ## Aliases
 
 | Alias | Identifier |
@@ -25,6 +27,9 @@ The registry owns recipe identity, status, aliases, and canonical path. The reci
 | `guanciale pasta` | `creamy-guanciale-tagliatelle` |
 | `guancale pasta` | `creamy-guanciale-tagliatelle` |
 | `creamy guanciale pasta` | `creamy-guanciale-tagliatelle` |
+
+| `Napoleonas` | `napoleon-with-cranberries` |
+| `Napoleonas su spanguolėmis` | `napoleon-with-cranberries` |
 
 ## Capture queue
 
