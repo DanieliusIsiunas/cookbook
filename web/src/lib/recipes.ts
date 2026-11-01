@@ -26,6 +26,9 @@ export function recipeImage(recipe: Recipe, base: string) {
   if (recipe.data.id === "creamy-guanciale-tagliatelle") {
     return `${base}images/creamy-guanciale-tagliatelle.webp`;
   }
+  if (recipe.data.id === "napoleon-with-cranberries") {
+    return `${base}images/napoleon-with-cranberries.webp`;
+  }
   return null;
 }
 
